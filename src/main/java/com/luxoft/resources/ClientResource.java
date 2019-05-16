@@ -6,19 +6,19 @@ import com.luxoft.clients.Client;
 import com.luxoft.clients.exceptions.ClientException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
-import java.util.logging.Logger;
 
 @Api(value = "REST", description = "APIs for working with clients")
 @Path("customers")
 public class ClientResource {
 
+    private Logger logger = LoggerFactory.getLogger(ClientResource.class);
     private RequestController requestController = new RequestController();
 
     @GET
@@ -43,8 +43,10 @@ public class ClientResource {
         try {
             requestController.addClient(client);
         } catch (ClientException e) {
+            logger.error(e.getErrorCode().getErrorString());
             return Response.status(400).entity(e.getErrorCode().getErrorString()).build();
         }
+        logger.info("Client with ID: " + client.getId() + " Successfully created");
         return Response.status(201).entity(client.toString() + "\n" + "Successfully created").build();
     }
 
@@ -54,8 +56,10 @@ public class ClientResource {
         try {
             requestController.updateClient(client);
         } catch (ClientException e) {
+            logger.error(e.getErrorCode().getErrorString());
             return Response.status(400).entity(e.getErrorCode().getErrorString()).build();
         }
+        logger.info("Client with ID: " + client.getId() + " Successfully updated");
         return Response.status(201).entity(client.toString() + "\n" + "Successfully updated").build();
     }
 
@@ -65,6 +69,7 @@ public class ClientResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteClient (@PathParam("id") int id) {
         requestController.deleteClient(id);
+        logger.info("Client with ID: " + id + " Successfully deleted");
         return Response.status(202).entity("Client deleted successfully").build();
     }
 }
