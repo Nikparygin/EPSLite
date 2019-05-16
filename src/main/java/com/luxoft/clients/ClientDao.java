@@ -13,7 +13,7 @@ public interface ClientDao {
      * Create new client
      * @param client - new client need to be created
      */
-    void createClient(Client client);
+    void createClient(Client client) throws Exception;
 
     /**
      * Find client by id

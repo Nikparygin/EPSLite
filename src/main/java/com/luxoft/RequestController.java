@@ -4,12 +4,17 @@ import com.luxoft.clients.Client;
 import com.luxoft.clients.exceptions.ClientErrorCode;
 import com.luxoft.clients.exceptions.ClientException;
 import com.luxoft.dbservice.JdbcTemplateClientDaoImpl;
+import com.luxoft.resources.ClientResource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.List;
 
 public class RequestController {
+
+   private Logger logger = LoggerFactory.getLogger(ClientResource.class);
 
    private ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 
@@ -54,6 +59,11 @@ public class RequestController {
 
    public void addClient(Client client) throws ClientException {
       checkClient(client);
-      jdbcTemplateClientDao.createClient(client);
+      try {
+         jdbcTemplateClientDao.createClient(client);
+      } catch (Exception e) {
+         logger.error(e.getMessage());
+         throw new ClientException(ClientErrorCode.ERROR_ADDING_CLIENT);
+      }
    }
 }

@@ -31,7 +31,7 @@ public class JdbcTemplateClientDaoImpl implements ClientDao {
      * @param client - new client need to be created
      */
     @Override
-    public void createClient(Client client) {
+    public void createClient(Client client) throws Exception {
         String createSettingsRequest = "INSERT INTO admin_web_console.processing_settings (allowed_delivery_type) " +
               "VALUES (?)";
         jdbcTemplate.update(createSettingsRequest, client.getProcessClientSettings().getProcessSettings().toString());
