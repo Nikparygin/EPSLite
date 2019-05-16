@@ -43,7 +43,9 @@ public class RequestController {
 
    public void updateClient(Client client) throws ClientException {
       checkClient(client);
-      jdbcTemplateClientDao.updateClient(client);
+      if (jdbcTemplateClientDao.updateClient(client) == 0) {
+         throw new ClientException(ClientErrorCode.WRONG_CLIENT_VERSION);
+      }
    }
 
    public void deleteClient(int id) {

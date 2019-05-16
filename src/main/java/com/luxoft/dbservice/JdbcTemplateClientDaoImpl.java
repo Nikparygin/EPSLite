@@ -32,7 +32,8 @@ public class JdbcTemplateClientDaoImpl implements ClientDao {
      */
     @Override
     public void createClient(Client client) {
-        String createSettingsRequest = "INSERT INTO admin_web_console.processing_settings (allowed_delivery_type) VALUES (?)";
+        String createSettingsRequest = "INSERT INTO admin_web_console.processing_settings (allowed_delivery_type) " +
+              "VALUES (?)";
         jdbcTemplate.update(createSettingsRequest, client.getProcessClientSettings().getProcessSettings().toString());
 
         String findLastIdRequest = "SELECT id FROM admin_web_console.processing_settings ORDER BY \"id\" desc limit 1";
@@ -112,12 +113,24 @@ public class JdbcTemplateClientDaoImpl implements ClientDao {
      * @param client - new client settings
      */
     @Override
-    public void updateClient( Client client) {
-        String getSettingsIdRequest = "SELECT processing_settings_id FROM admin_web_console.customer WHERE customer_id = ?";
-        int settingsId = (int) jdbcTemplate.queryForObject(getSettingsIdRequest, new Object[]{client.getId()}, Integer.class);
+    public int updateClient( Client client) {
+        String getSettingsIdRequest = "SELECT processing_settings_id " +
+              "FROM admin_web_console.customer " +
+              "WHERE customer_id = ?";
+        int settingsId = (int) jdbcTemplate.queryForObject(
+              getSettingsIdRequest,
+              new Object[]{client.getId()},
+              Integer.class
+        );
 
-        String updateSettingsRequest = "UPDATE admin_web_console.processing_settings SET allowed_delivery_type = ? WHERE id = ?";
-        jdbcTemplate.update(updateSettingsRequest, client.getProcessClientSettings().getProcessSettings().toString(), settingsId);
+        String updateSettingsRequest = "UPDATE admin_web_console.processing_settings " +
+              "SET allowed_delivery_type = ? " +
+              "WHERE id = ?";
+        jdbcTemplate.update(
+              updateSettingsRequest,
+              client.getProcessClientSettings().getProcessSettings().toString(),
+              settingsId
+        );
 
         String updateClientRequest = "UPDATE admin_web_console.customer SET " +
                 "customer_id = ?, " +
@@ -139,6 +152,9 @@ public class JdbcTemplateClientDaoImpl implements ClientDao {
                 client.getVersion()
         );
 
-        if (res == 0) System.out.println("the differences between the versions detected "); // Добавить обработчик
+        if (res == 0) {
+            System.out.println("the differences between the versions detected "); // Добавить обработчик
+        }
+        return res;
     }
 }

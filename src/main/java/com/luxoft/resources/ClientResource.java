@@ -43,9 +43,9 @@ public class ClientResource {
         try {
             requestController.addClient(client);
         } catch (ClientException e) {
-            return Response.status(400).build();
+            return Response.status(400).entity(e.getErrorCode().getErrorString()).build();
         }
-        return Response.status(201).build();
+        return Response.status(201).entity(client.toString() + "\n" + "Successfully created").build();
     }
 
     @PUT
@@ -54,16 +54,16 @@ public class ClientResource {
         try {
             requestController.updateClient(client);
         } catch (ClientException e) {
-            return Response.status(400).build();
+            return Response.status(400).entity(e.getErrorCode().getErrorString()).build();
         }
-        return Response.status(201).build();
+        return Response.status(201).entity(client.toString() + "\n" + "Successfully updated").build();
     }
 
     @DELETE
     @ApiOperation(value = "Delete client by id")
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response deleteClient (@PathParam("id") int id) throws URISyntaxException {
+    public Response deleteClient (@PathParam("id") int id) {
         requestController.deleteClient(id);
         return Response.status(202).entity("Client deleted successfully").build();
     }

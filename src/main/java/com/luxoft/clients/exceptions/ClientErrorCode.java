@@ -6,6 +6,7 @@ public enum  ClientErrorCode {
     WRONG_DISPLAYNAME("DISPLAY NAME does not match format"),
     WRONG_SHORTNAME("SHORT NAME does not match format"),
     WRONG_INN("INN does not match format"),
+    WRONG_CLIENT_VERSION("Can't update client"),
     WRONG_PROCESS_CLIENT_SETTINGS("PROCESS SETTINGS does not match format");
 
     private String errorString;

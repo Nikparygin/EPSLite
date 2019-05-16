@@ -1,7 +1,5 @@
 package com.luxoft.clients;
 
-import com.luxoft.clients.processSettings.ProcessClientSettings;
-
 import javax.sql.DataSource;
 import java.util.List;
 
@@ -40,5 +38,5 @@ public interface ClientDao {
      * Update client settings
      * @param client - new client settings
      */
-    void updateClient(Client client);
+    int updateClient(Client client);
 }

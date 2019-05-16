@@ -54,7 +54,7 @@ public class Client {
     /**
      * Empty constructor
      */
-    public Client() {
+    Client() {
         this.id = 0;
         this.shortName = null;
         this.displayName = null;
@@ -65,18 +65,66 @@ public class Client {
     }
 
     /**
+     * Set client id
+     * @param id - client id
+     */
+    void setId(int id) {
+        this.id = id;
+    }
+
+    /**
+     * Set client short name
+     * @param shortName - client short name
+     */
+    void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
+
+    /**
+     * Set client display name
+     * @param displayName - client display name
+     */
+    void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    /**
+     * Set client inn
+     * @param inn - client inn
+     */
+    void setInn(String inn) {
+        this.inn = inn;
+    }
+
+    /**
+     * Set client permission for sending letters
+     * @param enable - true if client is enable to send mails, false otherwise
+     */
+    void setEnable(boolean enable) {
+        isEnable = enable;
+    }
+
+    /**
+     * Set client process settings
+     * @param processClientSettings
+     */
+    void setProcessClientSettings(ProcessClientSettings processClientSettings) {
+        this.processClientSettings = processClientSettings;
+    }
+
+    /**
+     * Set client settings version
+     * @param version - client settings version
+     */
+    void setVersion(int version) {
+        this.version = version;
+    }
+
+    /**
      * @return client id
      */
     public int getId() {
         return id;
-    }
-
-    /**
-     * Set client id
-     * @param id - client id
-     */
-    public void setId(int id) {
-        this.id = id;
     }
 
     /**
@@ -87,14 +135,6 @@ public class Client {
     }
 
     /**
-     * Set client short name
-     * @param shortName - client short name
-     */
-    public void setShortName(String shortName) {
-        this.shortName = shortName;
-    }
-
-    /**
      * @return client display name
      */
     public String getDisplayName() {
@@ -102,26 +142,10 @@ public class Client {
     }
 
     /**
-     * Set client display name
-     * @param displayName - client display name
-     */
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
-    /**
      * @return client inn
      */
     public String getInn() {
         return inn;
-    }
-
-    /**
-     * Set client inn
-     * @param inn - client inn
-     */
-    public void setInn(String inn) {
-        this.inn = inn;
     }
 
     /**
@@ -134,14 +158,6 @@ public class Client {
     }
 
     /**
-     * Set client permission for sending letters
-     * @param enable - true if client is enable to send mails, false otherwise
-     */
-    public void setEnable(boolean enable) {
-        isEnable = enable;
-    }
-
-    /**
      * Return processing client settings (e.g. allowed delivery type)
      * @return processSettings
      */
@@ -150,27 +166,11 @@ public class Client {
     }
 
     /**
-     * Set client process settings
-     * @param processClientSettings
-     */
-    public void setProcessClientSettings(ProcessClientSettings processClientSettings) {
-        this.processClientSettings = processClientSettings;
-    }
-
-    /**
      * Return client settings version
      * @return client settings version
      */
     public int getVersion() {
         return version;
-    }
-
-    /**
-     * Set client settings version
-     * @param version - client settings version
-     */
-    public void setVersion(int version) {
-        this.version = version;
     }
 
     /**
