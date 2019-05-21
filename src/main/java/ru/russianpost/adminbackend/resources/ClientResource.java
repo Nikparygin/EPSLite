@@ -1,9 +1,9 @@
-package com.luxoft.resources;
+package ru.russianpost.adminbackend.resources;
 
-import com.luxoft.RequestController;
-import com.luxoft.clients.Client;
+import ru.russianpost.adminbackend.controller.ClientController;
+import ru.russianpost.api.Client;
 
-import com.luxoft.clients.exceptions.ClientException;
+import ru.russianpost.adminbackend.exceptions.ClientException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -19,21 +19,21 @@ import java.util.List;
 public class ClientResource {
 
     private Logger logger = LoggerFactory.getLogger(ClientResource.class);
-    private RequestController requestController = new RequestController();
+    private ClientController clientController = new ClientController();
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Find client by id")
     public Client getClient(@PathParam("id") int id) {
-        return requestController.getClientById(id);
+        return clientController.getClientById(id);
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Find all clients")
     public List getAllClients() {
-        return requestController.getAllClients();
+        return clientController.getAllClients();
     }
 
     @POST
@@ -41,9 +41,9 @@ public class ClientResource {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addClient(Client client) {
         try {
-            requestController.addClient(client);
+            clientController.addClient(client);
         } catch (ClientException e) {
-            logger.error(e.getErrorCode().getErrorString());
+            logger.info(e.getErrorCode().getErrorString());
             return Response.status(400).entity(e.getErrorCode().getErrorString()).build();
         }
         logger.info("Client with ID: " + client.getId() + " Successfully created");
@@ -54,9 +54,9 @@ public class ClientResource {
     @ApiOperation(value = "Update client by id")
     public Response updateClient(Client client) {
         try {
-            requestController.updateClient(client);
+            clientController.updateClient(client);
         } catch (ClientException e) {
-            logger.error(e.getErrorCode().getErrorString());
+            logger.info(e.getErrorCode().getErrorString());
             return Response.status(400).entity(e.getErrorCode().getErrorString()).build();
         }
         logger.info("Client with ID: " + client.getId() + " Successfully updated");
@@ -68,7 +68,7 @@ public class ClientResource {
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response deleteClient (@PathParam("id") int id) {
-        requestController.deleteClient(id);
+        clientController.deleteClient(id);
         logger.info("Client with ID: " + id + " Successfully deleted");
         return Response.status(202).entity("Client deleted successfully").build();
     }

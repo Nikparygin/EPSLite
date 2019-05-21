@@ -1,8 +1,9 @@
-package com.luxoft.clients;
+package ru.russianpost.adminbackend.dao.impl;
 
-import com.luxoft.clients.processSettings.ProcessClientSettings;
-import com.luxoft.clients.processSettings.ProcessSettings;
+import ru.russianpost.api.ProcessClientSettings;
+import ru.russianpost.api.ProcessSettings;
 import org.springframework.jdbc.core.RowMapper;
+import ru.russianpost.api.Client;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -28,10 +29,9 @@ public class ClientMapper implements RowMapper {
         client.setInn(rs.getString("inn"));
         client.setEnable(rs.getBoolean("enabled"));
         client.setVersion(rs.getInt("version"));
+//        client.setProcessClientSettings(new ProcessClientSettings(ProcessSettings.valueOf(rs.getString("allowed_delivery_type"))));
         try {
-            client.setProcessClientSettings(
-                new ProcessClientSettings(ProcessSettings.fromString(rs.getString("allowed_delivery_type")))
-            );
+            client.setProcessClientSettings(new ProcessClientSettings(ProcessSettings.valueOf(rs.getString("allowed_delivery_type"))));
         } catch (Exception e) {
            throw new SQLException("", e);
         }
