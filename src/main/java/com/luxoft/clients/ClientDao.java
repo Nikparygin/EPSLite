@@ -1,13 +1,14 @@
-package ru.russianpost.adminbackend.dao;
+package com.luxoft.clients;
 
-import ru.russianpost.api.Client;
-
+import javax.sql.DataSource;
 import java.util.List;
 
 /**
  * ClientDao interface produce all the functionality required for creating, updating, and removing Client objects
  */
 public interface ClientDao {
+    void setDataSource(DataSource dataSource);
+
     /**
      * Create new client
      * @param client - new client need to be created

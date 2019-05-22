@@ -1,22 +1,24 @@
-package ru.russianpost.adminbackend.controller;
+package com.luxoft;
 
-
-import ru.russianpost.api.Client;
-import ru.russianpost.adminbackend.exceptions.ClientErrorCode;
-import ru.russianpost.adminbackend.exceptions.ClientException;
-import ru.russianpost.adminbackend.dao.impl.JdbcTemplateClientDaoImpl;
-import ru.russianpost.adminbackend.resources.ClientResource;
+import com.luxoft.clients.Client;
+import com.luxoft.clients.exceptions.ClientErrorCode;
+import com.luxoft.clients.exceptions.ClientException;
+import com.luxoft.dbservice.JdbcTemplateClientDaoImpl;
+import com.luxoft.resources.ClientResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.List;
 
-public class ClientController {
+public class RequestController {
 
    private Logger logger = LoggerFactory.getLogger(ClientResource.class);
 
-   private JdbcTemplateClientDaoImpl jdbcTemplateClientDao = new JdbcTemplateClientDaoImpl();
+   private ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+
+   private JdbcTemplateClientDaoImpl jdbcTemplateClientDao = (JdbcTemplateClientDaoImpl) context.getBean("jdbcTemplateClientDao");
 
    private void checkClient(Client client) throws ClientException {
       if (client == null) {
@@ -40,7 +42,7 @@ public class ClientController {
       return jdbcTemplateClientDao.getClientById(id);
    }
 
-   public List<Client> getAllClients() {
+   public List getAllClients() {
       return jdbcTemplateClientDao.listClients();
    }
 

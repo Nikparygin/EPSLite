@@ -1,12 +1,11 @@
-package ru.russianpost.adminbackend.dao.impl;
+package com.luxoft.dbservice;
 
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import ru.russianpost.api.Client;
-import ru.russianpost.adminbackend.dao.ClientDao;
+import com.luxoft.clients.Client;
+import com.luxoft.clients.ClientDao;
+import com.luxoft.clients.ClientMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.transaction.annotation.Transactional;
-import ru.russianpost.utils.Config;
 
+import javax.sql.DataSource;
 import java.util.List;
 
 /**
@@ -14,18 +13,25 @@ import java.util.List;
  * creating, updating, and removing Client objects in database
  */
 public class JdbcTemplateClientDaoImpl implements ClientDao {
+    private DataSource dataSource;
 
-    private JdbcTemplate jdbcTemplate = new JdbcTemplate(
-          new DriverManagerDataSource(Config.getURL(), Config.getUser(), Config.getPassword())
-    );
+    private JdbcTemplate jdbcTemplate;
 
+    /**
+     * Applying connection settings
+     * @param dataSource - connection settings described in dataSource bean in applicationContext.xml
+     */
+    @Override
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
     /**
      * Create new client
      * @param client - new client need to be created
      */
     @Override
-    @Transactional
-    public void createClient(Client client) {
+    public void createClient(Client client) throws Exception {
         String createSettingsRequest = "INSERT INTO admin_web_console.processing_settings (allowed_delivery_type) " +
               "VALUES (?)";
         jdbcTemplate.update(createSettingsRequest, client.getProcessClientSettings().getProcessSettings().toString());
@@ -34,22 +40,22 @@ public class JdbcTemplateClientDaoImpl implements ClientDao {
         int settingsId = (int) jdbcTemplate.queryForObject(findLastIdRequest, Integer.class);
 
         String createClientRequest = "INSERT INTO admin_web_console.customer (" +
-              "customer_id, " +
-              "processing_settings_id, " +
-              "short_name, " +
-              "display_name, " +
-              "inn, " +
-              "enabled" +
-              ")" +
-              "VALUES (?,?,?,?,?,?)";
+                "customer_id, " +
+                "processing_settings_id, " +
+                "short_name, " +
+                "display_name, " +
+                "inn, " +
+                "enabled" +
+                ")" +
+                "VALUES (?,?,?,?,?,?)";
 
         jdbcTemplate.update(createClientRequest,
-              client.getId(),
-              settingsId,
-              client.getShortName(),
-              client.getDisplayName(),
-              client.getInn(),
-              client.isEnable());
+                client.getId(),
+                settingsId,
+                client.getShortName(),
+                client.getDisplayName(),
+                client.getInn(),
+                client.isEnable());
     }
     /**
      * Find client by id
@@ -59,17 +65,17 @@ public class JdbcTemplateClientDaoImpl implements ClientDao {
     @Override
     public Client getClientById(int id) {
         String getClientByIdRequest = "SELECT " +
-              "customer.id, " +
-              "customer_id, " +
-              "short_name, " +
-              "display_name, " +
-              "inn, " +
-              "enabled, " +
-              "allowed_delivery_type, " +
-              "customer.version " +
-              "FROM admin_web_console.customer JOIN admin_web_console.processing_settings ON(" +
-              "customer.processing_settings_id = processing_settings.id" +
-              ") WHERE customer_id = ?";
+                "customer.id, " +
+                "customer_id, " +
+                "short_name, " +
+                "display_name, " +
+                "inn, " +
+                "enabled, " +
+                "allowed_delivery_type, " +
+                "customer.version " +
+                "FROM admin_web_console.customer JOIN admin_web_console.processing_settings ON(" +
+                "customer.processing_settings_id = processing_settings.id" +
+                ") WHERE customer_id = ?";
 
         return (Client) jdbcTemplate.queryForObject(getClientByIdRequest, new Object[]{id}, new ClientMapper());
     }
@@ -78,18 +84,18 @@ public class JdbcTemplateClientDaoImpl implements ClientDao {
      * @return all clients in database
      */
     @Override
-    public List<Client> listClients() {
+    public List listClients() {
         String getAllClientsRequest = "SELECT " +
-              "customer.id, " +
-              "customer_id, " +
-              "short_name, " +
-              "display_name, " +
-              "inn, " +
-              "enabled, " +
-              "allowed_delivery_type, " +
-              "customer.version " +
-              "FROM admin_web_console.customer JOIN admin_web_console.processing_settings ON(" +
-              "customer.processing_settings_id = processing_settings.id)";
+                "customer.id, " +
+                "customer_id, " +
+                "short_name, " +
+                "display_name, " +
+                "inn, " +
+                "enabled, " +
+                "allowed_delivery_type, " +
+                "customer.version " +
+                "FROM admin_web_console.customer JOIN admin_web_console.processing_settings ON(" +
+                "customer.processing_settings_id = processing_settings.id)";
 
         return jdbcTemplate.query(getAllClientsRequest, new ClientMapper());
     }
@@ -107,7 +113,6 @@ public class JdbcTemplateClientDaoImpl implements ClientDao {
      * @param client - new client settings
      */
     @Override
-    @Transactional
     public int updateClient( Client client) {
         String getSettingsIdRequest = "SELECT processing_settings_id " +
               "FROM admin_web_console.customer " +
@@ -128,23 +133,23 @@ public class JdbcTemplateClientDaoImpl implements ClientDao {
         );
 
         String updateClientRequest = "UPDATE admin_web_console.customer SET " +
-              "customer_id = ?, " +
-              "short_name = ?, " +
-              "display_Name = ?, " +
-              "inn = ?, " +
-              "enabled = ?, " +
-              "version = version + 1 " +
-              "WHERE customer_id = ? and version = ?";
+                "customer_id = ?, " +
+                "short_name = ?, " +
+                "display_Name = ?, " +
+                "inn = ?, " +
+                "enabled = ?, " +
+                "version = version + 1 " +
+                "WHERE customer_id = ? and version = ?";
 
         int res = jdbcTemplate.update(
-              updateClientRequest,
-              client.getId(),
-              client.getShortName(),
-              client.getDisplayName(),
-              client.getInn(),
-              client.isEnable(),
-              client.getId(),
-              client.getVersion()
+                updateClientRequest,
+                client.getId(),
+                client.getShortName(),
+                client.getDisplayName(),
+                client.getInn(),
+                client.isEnable(),
+                client.getId(),
+                client.getVersion()
         );
 
         if (res == 0) {

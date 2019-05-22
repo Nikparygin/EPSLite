@@ -1,4 +1,6 @@
-package ru.russianpost.api;
+package com.luxoft.clients;
+
+import com.luxoft.clients.processSettings.ProcessClientSettings;
 
 import java.util.Objects;
 
@@ -52,7 +54,7 @@ public class Client {
     /**
      * Empty constructor
      */
-    public Client() {
+    Client() {
         this.id = 0;
         this.shortName = null;
         this.displayName = null;
@@ -66,7 +68,7 @@ public class Client {
      * Set client id
      * @param id - client id
      */
-    public void setId(int id) {
+    void setId(int id) {
         this.id = id;
     }
 
@@ -74,7 +76,7 @@ public class Client {
      * Set client short name
      * @param shortName - client short name
      */
-    public void setShortName(String shortName) {
+    void setShortName(String shortName) {
         this.shortName = shortName;
     }
 
@@ -82,7 +84,7 @@ public class Client {
      * Set client display name
      * @param displayName - client display name
      */
-    public void setDisplayName(String displayName) {
+    void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
 
@@ -90,7 +92,7 @@ public class Client {
      * Set client inn
      * @param inn - client inn
      */
-    public void setInn(String inn) {
+    void setInn(String inn) {
         this.inn = inn;
     }
 
@@ -98,7 +100,7 @@ public class Client {
      * Set client permission for sending letters
      * @param enable - true if client is enable to send mails, false otherwise
      */
-    public void setEnable(boolean enable) {
+    void setEnable(boolean enable) {
         isEnable = enable;
     }
 
@@ -106,7 +108,7 @@ public class Client {
      * Set client process settings
      * @param processClientSettings
      */
-    public void setProcessClientSettings(ProcessClientSettings processClientSettings) {
+    void setProcessClientSettings(ProcessClientSettings processClientSettings) {
         this.processClientSettings = processClientSettings;
     }
 
@@ -114,7 +116,7 @@ public class Client {
      * Set client settings version
      * @param version - client settings version
      */
-    public void setVersion(int version) {
+    void setVersion(int version) {
         this.version = version;
     }
 

@@ -1,4 +1,4 @@
-package ru.russianpost.api;
+package com.luxoft.clients.processSettings;
 
 import java.util.Objects;
 
