@@ -1,4 +1,6 @@
-package ru.russianpost;
+package com.luxoft;
+
+import com.luxoft.config.JerseyAppConfig;
 
 import io.swagger.jaxrs.config.BeanConfig;
 import org.glassfish.grizzly.http.server.CLStaticHttpHandler;
@@ -7,7 +9,6 @@ import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.russianpost.utils.Config;
 
 import java.net.URI;
 
@@ -29,9 +30,9 @@ public class Main {
 
     private static HttpServer startServer() {
         BeanConfig beanConfig = new BeanConfig();
-        beanConfig.setResourcePackage("ru.russianpost.adminbackend.resources");
+        beanConfig.setResourcePackage("com.luxoft.resources");
         beanConfig.setScan(true);
-        final ResourceConfig rc = new JerseyAppConfig().packages("ru.russianpost.adminbackend.resources");
+        final ResourceConfig rc = new JerseyAppConfig().packages("com.luxoft.resources");
         return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
     }
 }

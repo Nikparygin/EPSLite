@@ -1,4 +1,4 @@
-package ru.russianpost.adminbackend.exceptions;
+package com.luxoft.clients.exceptions;
 
 public class ClientException extends Exception {
 

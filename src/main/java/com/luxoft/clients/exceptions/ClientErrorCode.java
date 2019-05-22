@@ -1,4 +1,4 @@
-package ru.russianpost.adminbackend.exceptions;
+package com.luxoft.clients.exceptions;
 
 public enum  ClientErrorCode {
     NULL_CLIENT("Client is not initialized!"),

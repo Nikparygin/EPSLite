@@ -1,6 +1,6 @@
-package ru.russianpost;
+package com.luxoft.config;
 
-import ru.russianpost.adminbackend.resources.ClientResource;
+import com.luxoft.resources.ClientResource;
 import org.glassfish.jersey.server.ResourceConfig;
 
 /**

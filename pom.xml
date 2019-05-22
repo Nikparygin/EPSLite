@@ -107,11 +107,6 @@
             <artifactId>postgresql</artifactId>
             <version>9.3-1100-jdbc41</version>
         </dependency>
-        <dependency>
-            <groupId>com.typesafe</groupId>
-            <artifactId>config</artifactId>
-            <version>1.3.1</version>
-        </dependency>
 
     </dependencies>
 
@@ -178,7 +173,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>ru.russianpost.Main</mainClass>
+                    <mainClass>com.luxoft.Main</mainClass>
                 </configuration>
             </plugin>
 
