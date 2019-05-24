@@ -1,11 +1,11 @@
-package ru.russianpost.adminbackend.dao.impl;
+package ru.russianpost.epslite.adminbackend.dao.impl;
 
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import ru.russianpost.api.Client;
-import ru.russianpost.adminbackend.dao.ClientDao;
+import ru.russianpost.epslite.api.Client;
+import ru.russianpost.epslite.adminbackend.dao.ClientDao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
-import ru.russianpost.utils.Config;
+import ru.russianpost.epslite.conf.Config;
 
 import java.util.List;
 
@@ -16,7 +16,11 @@ import java.util.List;
 public class JdbcTemplateClientDaoImpl implements ClientDao {
 
     private JdbcTemplate jdbcTemplate = new JdbcTemplate(
-          new DriverManagerDataSource(Config.getURL(), Config.getUser(), Config.getPassword())
+          new DriverManagerDataSource(
+                Config.getInstance().getURL(),
+                Config.getInstance().getUser(),
+                Config.getInstance().getPassword()
+          )
     );
 
     /**

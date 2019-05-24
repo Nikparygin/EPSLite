@@ -1,4 +1,4 @@
-package ru.russianpost.adminbackend.exceptions;
+package ru.russianpost.epslite.adminbackend.exceptions;
 
 public class ClientException extends Exception {
 

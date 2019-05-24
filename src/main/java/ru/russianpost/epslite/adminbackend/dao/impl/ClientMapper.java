@@ -1,9 +1,9 @@
-package ru.russianpost.adminbackend.dao.impl;
+package ru.russianpost.epslite.adminbackend.dao.impl;
 
-import ru.russianpost.api.ProcessClientSettings;
-import ru.russianpost.api.ProcessSettings;
+import ru.russianpost.epslite.api.ProcessClientSettings;
+import ru.russianpost.epslite.api.ProcessSettings;
 import org.springframework.jdbc.core.RowMapper;
-import ru.russianpost.api.Client;
+import ru.russianpost.epslite.api.Client;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

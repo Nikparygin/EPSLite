@@ -1,6 +1,6 @@
-package ru.russianpost;
+package ru.russianpost.epslite.conf;
 
-import ru.russianpost.adminbackend.resources.ClientResource;
+import ru.russianpost.epslite.adminbackend.resources.ClientResource;
 import org.glassfish.jersey.server.ResourceConfig;
 
 /**

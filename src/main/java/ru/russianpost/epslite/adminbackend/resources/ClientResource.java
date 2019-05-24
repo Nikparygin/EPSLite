@@ -1,9 +1,9 @@
-package ru.russianpost.adminbackend.resources;
+package ru.russianpost.epslite.adminbackend.resources;
 
-import ru.russianpost.adminbackend.controller.ClientController;
-import ru.russianpost.api.Client;
+import ru.russianpost.epslite.adminbackend.controller.ClientController;
+import ru.russianpost.epslite.api.Client;
 
-import ru.russianpost.adminbackend.exceptions.ClientException;
+import ru.russianpost.epslite.adminbackend.exceptions.ClientException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;

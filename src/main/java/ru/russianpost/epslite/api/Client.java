@@ -1,4 +1,4 @@
-package ru.russianpost.api;
+package ru.russianpost.epslite.api;
 
 import java.util.Objects;
 
@@ -23,13 +23,13 @@ public class Client {
 
     /**
      * Default constrictor
-     * @param id - client id
-     * @param shortName - client short name
-     * @param displayName - client display name
-     * @param inn - client inn
-     * @param isEnable - client permission for sending mails
-     * @param processClientSettings - client processing settings
-     * @param version - client settings version
+     * @param id client id
+     * @param shortName client short name
+     * @param displayName client display name
+     * @param inn client inn
+     * @param isEnable client permission for sending mails
+     * @param processClientSettings client processing settings
+     * @param version client settings version
      */
     public Client (
             int id,

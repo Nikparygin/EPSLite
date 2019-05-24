@@ -1,4 +1,4 @@
-package ru.russianpost.adminbackend.exceptions;
+package ru.russianpost.epslite.adminbackend.exceptions;
 
 public enum  ClientErrorCode {
     NULL_CLIENT("Client is not initialized!"),

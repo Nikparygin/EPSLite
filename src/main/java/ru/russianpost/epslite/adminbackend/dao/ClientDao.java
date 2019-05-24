@@ -1,6 +1,6 @@
-package ru.russianpost.adminbackend.dao;
+package ru.russianpost.epslite.adminbackend.dao;
 
-import ru.russianpost.api.Client;
+import ru.russianpost.epslite.api.Client;
 
 import java.util.List;
 

@@ -1,13 +1,18 @@
-package ru.russianpost;
+package ru.russianpost.epslite;
 
 import io.swagger.jaxrs.config.BeanConfig;
+
 import org.glassfish.grizzly.http.server.CLStaticHttpHandler;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.russianpost.utils.Config;
+
+import ru.russianpost.epslite.adapter.SMServicePublisher;
+import ru.russianpost.epslite.conf.JerseyAppConfig;
+
 
 import java.net.URI;
 
@@ -19,19 +24,31 @@ public class Main {
     public static void main(String[] args) {
         try {
             final HttpServer server = startServer();
+
             server.getServerConfiguration().addHttpHandler(new CLStaticHttpHandler(Main.class.getClassLoader(), "swagger-ui/dist/"), "/dist");
+
             server.getServerConfiguration().addHttpHandler(new CLStaticHttpHandler(Main.class.getClassLoader(), "swagger-ui/public/"), "/swagger-ui");
-            logger.info("SERVER STARTED");
+
+            logger.info("REST SERVICE STARTED");
+
+            SMServicePublisher.getInstance().publishSoapService();
+
+            logger.info("SOAP SERVICE STARTED");
+
         } catch(Exception e) {
-            logger.error(e.getMessage());
+            logger.error("Unexpected error ", e);
         }
     }
 
     private static HttpServer startServer() {
         BeanConfig beanConfig = new BeanConfig();
-        beanConfig.setResourcePackage("ru.russianpost.adminbackend.resources");
+
+        beanConfig.setResourcePackage("ru.russianpost.epslite.adminbackend.resources");
+
         beanConfig.setScan(true);
-        final ResourceConfig rc = new JerseyAppConfig().packages("ru.russianpost.adminbackend.resources");
+
+        final ResourceConfig rc = new JerseyAppConfig().packages("ru.russianpost.epslite.adminbackend.resources");
+
         return GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), rc);
     }
 }

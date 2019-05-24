@@ -1,4 +1,4 @@
-package ru.russianpost.api;
+package ru.russianpost.epslite.api;
 
 import java.util.Objects;
 
