@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="SendLetterService" targetNamespace="http://russianpost.com/sendLetter"
+                  xmlns:tns="http://russianpost.com/sendLetter" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+    <wsdl:types>
+        <xsd:schema targetNamespace="http://russianpost.com/sendLetter">
+            <xsd:import namespace="http://russianpost.com/sendLetter" schemaLocation="types.xsd"/>
+            <xsd:element name="sendLetterReq"  type="tns:SendLetterRequestType"/>
+            <xsd:element name="sendLetterRes" type="tns:SendLetterResponseType"/>
+        </xsd:schema>
+    </wsdl:types>
+
+    <wsdl:message name="sendLetterRequestMsg">
+        <wsdl:part element="tns:sendLetterReq" name="sendLetterReq"/>
+    </wsdl:message>
+    <wsdl:message name="sendLetterResponseMsg">
+        <wsdl:part element="tns:sendLetterRes" name="sendLetterRes"/>
+    </wsdl:message>
+
+    <wsdl:portType name="SendLetterService">
+        <wsdl:operation name="sendLetter">
+            <wsdl:input message="tns:sendLetterRequestMsg" name="sendLetterRequest"/>
+            <wsdl:output message="tns:sendLetterResponseMsg" name="sendLetterResponse"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:binding name="SendLetterService_HttpBinding" type="tns:SendLetterService">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+        <wsdl:operation name="sendLetter">
+            <soap:operation soapAction="http://russianpost.com/sendLetter" style="document"/>
+            <wsdl:input name="sendLetterRequest">
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output name="sendLetterResponse">
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <wsdl:service name="SendLetterService_HttpService">
+        <wsdl:port binding="tns:SendLetterService_HttpBinding" name="SendLetterService_HttpPort">
+            <soap:address location="http://localhost:8081/letter_service/SendLetter"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
