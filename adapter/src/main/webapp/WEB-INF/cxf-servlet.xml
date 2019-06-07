@@ -7,7 +7,7 @@
     <import resource="classpath:META-INF/cxf/cxf.xml"/>
     <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
 
-    <bean id="postServiceImpl" class="training.ws.cxf.SendLetterServiceImpl"/>
+    <bean id="postServiceImpl" class="ru.russianpost.epslite.dao.impl.SendLetterServiceImpl"/>
 
     <jaxws:endpoint id="SendLetterService" implementor="#postServiceImpl" address="/SendLetter">
         <jaxws:properties>

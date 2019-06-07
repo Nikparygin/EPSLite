@@ -1,10 +1,11 @@
-package training.ws.cxf;
+package ru.russianpost.epslite.dao.impl;
 
 import com.russianpost.sendletter.SendLetterRequestType;
 import com.russianpost.sendletter.SendLetterResponseType;
 import com.russianpost.sendletter.SendLetterService;
-import training.ws.cxf.api.Letter;
-import training.ws.cxf.dao.impl.CassandraLetterDaoImpl;
+
+import ru.russianpost.epslite.api.Letter;
+import ru.russianpost.epslite.dao.impl.CassandraLetterDaoImpl;
 
 
 public class SendLetterServiceImpl implements SendLetterService {

@@ -1,4 +1,4 @@
-package training.ws.cxf.config;
+package ru.russianpost.epslite.config;
 
 import com.typesafe.config.ConfigFactory;
 

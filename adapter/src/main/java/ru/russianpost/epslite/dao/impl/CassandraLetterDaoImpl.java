@@ -1,13 +1,13 @@
-package training.ws.cxf.dao.impl;
+package ru.russianpost.epslite.dao.impl;
 
 import com.datastax.driver.core.Cluster;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 
-import training.ws.cxf.api.Letter;
-import training.ws.cxf.config.Config;
-import training.ws.cxf.dao.LetterDao;
+import ru.russianpost.epslite.api.Letter;
+import ru.russianpost.epslite.config.Config;
+import ru.russianpost.epslite.dao.LetterDao;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -39,6 +39,7 @@ public class CassandraLetterDaoImpl implements LetterDao {
 
       for (Row row : resultSet.all()) {
          Letter letter = new Letter(
+               row.getString("letter_id"),
                row.getInt("customer_id"),
                row.getString("customer_token"),
                row.getString("fio"),

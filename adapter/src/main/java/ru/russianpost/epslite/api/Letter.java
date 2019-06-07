@@ -1,10 +1,11 @@
-package training.ws.cxf.api;
+package ru.russianpost.epslite.api;
 
 import com.russianpost.sendletter.SendLetterRequestType;
 
 import java.util.Objects;
 
 public class Letter {
+   private String letterId;
    private int customerId;
    private String customerToken;
    private String fio;
@@ -13,6 +14,11 @@ public class Letter {
    private String Xml;
 
    public Letter(int customerId, String customerToken, String fio, String orgName, String rowAddress, String xml) {
+      new Letter(null, customerId, customerToken, fio, orgName, rowAddress, xml);
+   }
+
+   public Letter(String letterId, int customerId, String customerToken, String fio, String orgName, String rowAddress, String xml) {
+      this.letterId = letterId;
       this.customerId = customerId;
       this.customerToken = customerToken;
       this.fio = fio;
@@ -88,7 +94,8 @@ public class Letter {
             Objects.equals(fio, letter.fio) &&
             Objects.equals(orgName, letter.orgName) &&
             Objects.equals(rowAddress, letter.rowAddress) &&
-            Objects.equals(Xml, letter.Xml);
+            Objects.equals(Xml, letter.Xml) &&
+            Objects.equals(letterId, letter.letterId);
    }
 
    @Override

@@ -1,6 +1,6 @@
-package training.ws.cxf.dao;
+package ru.russianpost.epslite.dao;
 
-import training.ws.cxf.api.Letter;
+import ru.russianpost.epslite.api.Letter;
 
 import java.util.List;
 
