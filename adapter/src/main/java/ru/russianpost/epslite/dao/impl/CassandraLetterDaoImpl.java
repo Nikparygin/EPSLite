@@ -5,8 +5,9 @@ import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 
+import ru.russianpost.epslite.Config;
 import ru.russianpost.epslite.api.Letter;
-import ru.russianpost.epslite.config.Config;
+import ru.russianpost.epslite.cassandra.CassandraQuery;
 import ru.russianpost.epslite.dao.LetterDao;
 
 import java.text.SimpleDateFormat;
@@ -63,7 +64,7 @@ public class CassandraLetterDaoImpl implements LetterDao {
             ") VALUES (" +
             "'%2$s',%3$d, %4$d, '%5$s', '%6$s','%7$s', '%8$s', '%9$s'" +
             ")",
-            KEYSPACE,
+            Config.getInstance().getKeyspace(),
             letterId,
             date,
             letter.getCustomerId(),
@@ -73,6 +74,9 @@ public class CassandraLetterDaoImpl implements LetterDao {
             letter.getOrgName(),
             letter.getXml()
       );
+
+      CassandraQuery.query(saveLetterCql).execute();
+
       String saveLetterCql2 = String.format("INSERT INTO %1$s.letter_pk_date (" +
                   "letter_id, date, customer_id, customer_token, raw_address, fio, org_name, xml" +
                   ") VALUES (" +
@@ -89,7 +93,7 @@ public class CassandraLetterDaoImpl implements LetterDao {
             letter.getXml()
       );
 
-      SESSION.execute(saveLetterCql);
+//      SESSION.execute(saveLetterCql);
       SESSION.execute(saveLetterCql2);
 
       return letterId;

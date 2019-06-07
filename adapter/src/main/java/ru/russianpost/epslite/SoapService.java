@@ -6,7 +6,8 @@ import akka.actor.Props;
 
 import org.apache.catalina.LifecycleException;
 import org.apache.catalina.startup.Tomcat;
-import ru.russianpost.epslite.actors.LetterScaner;
+import ru.russianpost.epslite.cassandra.CassandraConnector;
+import ru.russianpost.epslite.cassandra.RetryPolicyType;
 
 import java.time.Duration;
 
@@ -27,21 +28,35 @@ public final class SoapService {
             tomcat.getHost().setAutoDeploy(true);
             tomcat.getHost().setDeployOnStartup(true);
             tomcat.addWebapp(
-                "/letter_service",
-                "C:\\Dev\\!EPSLite\\EPSLite\\adapter\\src\\main\\webapp"
+                  "/letter_service",
+                  "C:\\Dev\\!EPSLite\\EPSLite\\adapter\\src\\main\\webapp"
             );
 
             tomcat.start();
 
+            initCassandra();
+
             ActorRef letterScaner = epslite.actorOf(Props.create(LetterScaner.class), "letterScanerActor");
 
-            epslite.scheduler().schedule(Duration.ZERO, Duration.ofMinutes(1), letterScaner, "scanStorage", epslite.dispatcher(), ActorRef.noSender());
+            epslite.scheduler().schedule(
+                  Duration.ZERO, Duration.ofSeconds(10), letterScaner, "scanStorage", epslite.dispatcher(), ActorRef.noSender()
+            );
 
             tomcat.getServer().await();
 
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    private void initCassandra() {
+        CassandraConnector.getInstance().init(
+              Config.getInstance().getServerIpList().toArray(new String[0]),
+              Config.getInstance().getKeyspace(),
+              Config.getInstance().getDefaultConsistencyLevel(),
+              (Integer) null,
+              (RetryPolicyType) null
+        );
     }
 
     private void stop() {

@@ -2,8 +2,8 @@ package ru.russianpost.epslite.adminbackend.controller;
 
 
 import ru.russianpost.epslite.api.Client;
-import ru.russianpost.epslite.adminbackend.exceptions.ClientErrorCode;
-import ru.russianpost.epslite.adminbackend.exceptions.ClientException;
+import ru.russianpost.epslite.exceptions.ClientErrorCode;
+import ru.russianpost.epslite.exceptions.ClientException;
 import ru.russianpost.epslite.adminbackend.dao.impl.JdbcTemplateClientDaoImpl;
 import ru.russianpost.epslite.adminbackend.resources.ClientResource;
 import org.slf4j.Logger;

@@ -1,7 +1,5 @@
 package ru.russianpost.epslite.api;
 
-import com.russianpost.sendletter.SendLetterRequestType;
-
 import java.util.Objects;
 
 public class Letter {
@@ -27,13 +25,7 @@ public class Letter {
       Xml = xml;
    }
 
-   public Letter(SendLetterRequestType requestType) {
-      this(requestType.getSender().getCustomerId(),
-            requestType.getSender().getToken(),
-            requestType.getRecipient().getFio(),
-            requestType.getRecipient().getOrgName(),
-            requestType.getRecipient().getRawAddress(),
-            requestType.getXml());
+   public Letter() {
    }
 
    public int getCustomerId() {

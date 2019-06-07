@@ -1,24 +1,23 @@
-package ru.russianpost.epslite.actors;
+package ru.russianpost.epslite;
+
+import ru.russianpost.epslite.api.Letter;
 
 import akka.actor.AbstractActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
-import ru.russianpost.epslite.api.Letter;
-
-import java.util.Set;
 
 public class PdfCreator extends AbstractActor {
 
    private final LoggingAdapter log = Logging.getLogger(getContext().getSystem(), this);
 
-   public void createPdf(Set<Letter> letters) {
-      System.out.println(letters);
+   public void createPdf(Letter letter) {
+      System.out.println(letter);
    }
 
    @Override
    public Receive createReceive() {
       return receiveBuilder()
-            .match(Set.class, this::createPdf)
+            .match(Letter.class, this::createPdf)
             .matchAny(o -> log.info("received unknown message"))
             .build();
    }
