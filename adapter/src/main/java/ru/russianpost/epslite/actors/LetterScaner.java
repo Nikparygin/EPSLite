@@ -12,18 +12,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class LetterScaner extends AbstractActor {
+
    private Set<Letter> letters = new HashSet<Letter>();
+
    private static final ActorSystem epslite = ActorSystem.create("epslite");
-   ActorRef restSrviceActor = epslite.actorOf(Props.create(PdfCreator.class), "pdfCreatorActor");
 
-   public void scanStorage() {
+   private ActorRef restSrviceActor = epslite.actorOf(Props.create(PdfCreator.class), "pdfCreatorActor");
 
+   private void scanStorage() {
       if (letters.addAll(CassandraLetterDaoImpl.getInstance().getLetters())) {
          restSrviceActor.tell(letters, getSelf());
       }
-
-//      letters.addAll(CassandraLetterDaoImpl.getInstance().getLetters());
-//      restSrviceActor.tell(letters, getSelf());
    }
 
    public Set<Letter> getLetters() {

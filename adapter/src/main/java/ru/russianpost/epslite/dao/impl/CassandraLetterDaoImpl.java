@@ -97,7 +97,7 @@ public class CassandraLetterDaoImpl implements LetterDao {
 
    @Override
    public List<Letter> getLettersByDate(int date) {
-      String getLettersCql = String.format("SELECT * FROM %1$s.letter_pk_date where date = %2$d allow filtering", KEYSPACE, date);
+      String getLettersCql = String.format("SELECT * FROM %1$s.letter_pk_date where date = %2$d", KEYSPACE, date);
       ResultSet resultSet = SESSION.execute(getLettersCql);
 
       List<Letter> letters = new ArrayList<Letter>();
@@ -136,7 +136,7 @@ public class CassandraLetterDaoImpl implements LetterDao {
 
    @Override
    public List<Letter> getLettersByCustomer(int customerId) {
-      String getLettersCql = String.format("SELECT * FROM %1$s.letter_pk_date where customer_id = %2$d allow filtering", KEYSPACE, customerId);
+      String getLettersCql = String.format("SELECT * FROM %1$s.letter_pk_customer where customer_id = %2$d", KEYSPACE, customerId);
       ResultSet resultSet = SESSION.execute(getLettersCql);
       List<Letter> letters = new ArrayList<Letter>();
 
