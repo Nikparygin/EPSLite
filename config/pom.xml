@@ -14,7 +14,6 @@
     <artifactId>EPSLite.config</artifactId>
     <name>${project.groupId}:${project.artifactId}</name>
     <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
 
     <dependencies>
 

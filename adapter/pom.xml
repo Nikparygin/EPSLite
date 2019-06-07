@@ -147,7 +147,6 @@
             <groupId>ru.russianpost</groupId>
             <artifactId>EPSLite.config</artifactId>
             <version>${project.version}</version>
-            <classifier>classes</classifier>
         </dependency>
 
         <!-- akka -->
@@ -162,7 +161,6 @@
             <groupId>ru.russianpost</groupId>
             <artifactId>EPSLite.api</artifactId>
             <version>${project.version}</version>
-            <classifier>classes</classifier>
         </dependency>
 
         <!-- Processor -->
@@ -170,7 +168,6 @@
             <groupId>ru.russianpost</groupId>
             <artifactId>EPSLite.processor</artifactId>
             <version>${project.version}</version>
-            <classifier>classes</classifier>
         </dependency>
 
     </dependencies>
