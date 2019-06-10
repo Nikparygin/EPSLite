@@ -7,7 +7,7 @@ import com.russianpost.sendletter.SendLetterService;
 import com.russianpost.sendletter.SenderType;
 
 import ru.russianpost.epslite.api.Letter;
-import ru.russianpost.epslite.dao.impl.CassandraLetterDaoImpl;
+import ru.russianpost.epslite.impl.CassandraLetterDaoImpl;
 
 
 public class SendLetterServiceImpl implements SendLetterService {
@@ -25,7 +25,7 @@ public class SendLetterServiceImpl implements SendLetterService {
         letter.setCustomerToken(sender.getToken());
         letter.setFio(recipient.getFio());
         letter.setOrgName(recipient.getOrgName());
-        letter.setRowAddress(recipient.getRawAddress());
+        letter.setRawAddress(recipient.getRawAddress());
         letter.setXml(xml);
 
         response.setLetterId(CassandraLetterDaoImpl.getInstance().saveLetter(letter));

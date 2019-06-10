@@ -64,7 +64,7 @@ public class Client {
 
     /**
      * Set client id
-     * @param id - client id
+     * @param id client id
      */
     public void setId(int id) {
         this.id = id;
@@ -72,7 +72,7 @@ public class Client {
 
     /**
      * Set client short name
-     * @param shortName - client short name
+     * @param shortName client short name
      */
     public void setShortName(String shortName) {
         this.shortName = shortName;
@@ -80,7 +80,7 @@ public class Client {
 
     /**
      * Set client display name
-     * @param displayName - client display name
+     * @param displayName client display name
      */
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
@@ -88,7 +88,7 @@ public class Client {
 
     /**
      * Set client inn
-     * @param inn - client inn
+     * @param inn client inn
      */
     public void setInn(String inn) {
         this.inn = inn;
@@ -104,7 +104,7 @@ public class Client {
 
     /**
      * Set client process settings
-     * @param processClientSettings
+     * @param processClientSettings Process client settings
      */
     public void setProcessClientSettings(ProcessClientSettings processClientSettings) {
         this.processClientSettings = processClientSettings;
@@ -112,7 +112,7 @@ public class Client {
 
     /**
      * Set client settings version
-     * @param version - client settings version
+     * @param version client settings version
      */
     public void setVersion(int version) {
         this.version = version;

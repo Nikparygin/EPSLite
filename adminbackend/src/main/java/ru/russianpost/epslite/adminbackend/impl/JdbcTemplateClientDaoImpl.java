@@ -1,9 +1,9 @@
-package ru.russianpost.epslite.adminbackend.dao.impl;
+package ru.russianpost.epslite.adminbackend.impl;
 
 import ru.russianpost.epslite.Config;
 import ru.russianpost.epslite.api.Client;
 
-import ru.russianpost.epslite.adminbackend.dao.ClientDao;
+import ru.russianpost.epslite.dao.ClientDao;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;

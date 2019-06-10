@@ -8,8 +8,8 @@ public class Letter {
    private String customerToken;
    private String fio;
    private String orgName;
-   private String rowAddress;
-   private String Xml;
+   private String rawAddress;
+   private String xml;
 
    public Letter(int customerId, String customerToken, String fio, String orgName, String rowAddress, String xml) {
       new Letter(null, customerId, customerToken, fio, orgName, rowAddress, xml);
@@ -21,8 +21,8 @@ public class Letter {
       this.customerToken = customerToken;
       this.fio = fio;
       this.orgName = orgName;
-      this.rowAddress = rowAddress;
-      Xml = xml;
+      this.rawAddress = rowAddress;
+      this.xml = xml;
    }
 
    public Letter() {
@@ -61,19 +61,23 @@ public class Letter {
    }
 
    public String getRawAddress() {
-      return rowAddress;
+      return rawAddress;
    }
 
-   public void setRowAddress(String rowAddress) {
-      this.rowAddress = rowAddress;
+   public void setRawAddress(String rawAddress) {
+      this.rawAddress = rawAddress;
    }
 
    public String getXml() {
-      return Xml;
+      return xml;
    }
 
    public void setXml(String xml) {
-      Xml = xml;
+      this.xml = xml;
+   }
+
+   public String getLetterId() {
+      return letterId;
    }
 
    @Override
@@ -82,16 +86,29 @@ public class Letter {
       if (o == null || getClass() != o.getClass()) return false;
       Letter letter = (Letter) o;
       return customerId == letter.customerId &&
+            Objects.equals(letterId, letter.letterId) &&
             Objects.equals(customerToken, letter.customerToken) &&
             Objects.equals(fio, letter.fio) &&
             Objects.equals(orgName, letter.orgName) &&
-            Objects.equals(rowAddress, letter.rowAddress) &&
-            Objects.equals(Xml, letter.Xml) &&
-            Objects.equals(letterId, letter.letterId);
+            Objects.equals(rawAddress, letter.rawAddress) &&
+            Objects.equals(xml, letter.xml);
    }
 
    @Override
    public int hashCode() {
-      return Objects.hash(customerId, customerToken, fio, orgName, rowAddress, Xml);
+      return Objects.hash(letterId, customerId, customerToken, fio, orgName, rawAddress, xml);
+   }
+
+   @Override
+   public String toString() {
+      return "Letter{" +
+            "letterId='" + letterId + '\'' +
+            ", customerId=" + customerId +
+            ", customerToken='" + customerToken + '\'' +
+            ", fio='" + fio + '\'' +
+            ", orgName='" + orgName + '\'' +
+            ", rawAddress='" + rawAddress + '\'' +
+            ", xml='" + xml + '\'' +
+            '}';
    }
 }

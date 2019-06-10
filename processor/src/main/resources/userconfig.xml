@@ -1,0 +1,22 @@
+<fop version="1.0">
+    <source-resolution>72</source-resolution>
+    <renderers>
+        <renderer mime="application/pdf">
+            <fonts>
+
+                <font kerning="yes" embed-url="times.pfb">
+                    <font-triplet name="times" style="normal" weight="normal"/>
+                </font>
+
+                <font kerning="yes" embed-url="timesbd.pfb">
+                    <font-triplet name="timesBold" style="normal" weight="normal"/>
+                </font>
+
+                <font kerning="yes" embed-url="timesi.pfb">
+                    <font-triplet name="timesItalic" style="normal" weight="normal"/>
+                </font>
+
+            </fonts>
+        </renderer>
+    </renderers>
+</fop>

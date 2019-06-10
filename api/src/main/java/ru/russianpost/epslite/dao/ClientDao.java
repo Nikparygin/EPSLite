@@ -1,4 +1,4 @@
-package ru.russianpost.epslite.adminbackend.dao;
+package ru.russianpost.epslite.dao;
 
 import ru.russianpost.epslite.api.Client;
 

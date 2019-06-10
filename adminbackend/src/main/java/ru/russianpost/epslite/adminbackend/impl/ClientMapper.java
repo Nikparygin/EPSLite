@@ -1,4 +1,4 @@
-package ru.russianpost.epslite.adminbackend.dao.impl;
+package ru.russianpost.epslite.adminbackend.impl;
 
 import ru.russianpost.epslite.api.ProcessClientSettings;
 import ru.russianpost.epslite.api.ProcessSettings;

@@ -126,6 +126,7 @@
         <dependency>
             <groupId>ru.russianpost</groupId>
             <artifactId>EPSLite.api</artifactId>
+
             <version>${project.version}</version>
         </dependency>
 
