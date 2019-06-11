@@ -8,13 +8,12 @@ import ru.russianpost.epslite.dao.LetterDao;
 import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import java.text.SimpleDateFormat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,7 +38,6 @@ public class CassandraLetterDaoImpl implements LetterDao {
    }
 
    @Override
-   @Transactional
    public String saveLetter(Letter letter) {
       String letterId = UUID.randomUUID().toString();
       Integer date = new Integer(new SimpleDateFormat("yyyyMMdd").format(new Date()));
@@ -72,7 +70,7 @@ public class CassandraLetterDaoImpl implements LetterDao {
       String getLettersCql = String.format("SELECT * FROM %1$s.%2$s", KEYSPACE, LETTER_TABLE_NAME);
       ResultSet resultSet = CassandraQuery.query(getLettersCql).execute();
 
-      List<Letter> letters = new ArrayList<Letter>();
+      List<Letter> letters = new LinkedList<>();
 
       for (Row row : resultSet.all()) {
          Letter letter = new Letter(
@@ -95,10 +93,11 @@ public class CassandraLetterDaoImpl implements LetterDao {
       String getLettersCql = String.format("SELECT * FROM %1$s.%2$s where date = ?", KEYSPACE, LETTER_PK_DATE_TABLE_NAME);
       ResultSet resultSet = CassandraQuery.query(getLettersCql).execute(date);
 
-      List<Letter> letters = new ArrayList<Letter>();
+      List<Letter> letters = new LinkedList<>();
 
       for (Row row : resultSet.all()) {
          Letter letter = new Letter(
+               row.getString("letter_id"),
                row.getInt("customer_id"),
                row.getString("customer_token"),
                row.getString("fio"),
@@ -116,14 +115,15 @@ public class CassandraLetterDaoImpl implements LetterDao {
    public Letter getLetterById(String letterId) {
       String getLettersCql = String.format("SELECT * FROM %1$s.%2$s where letter_id = ?", KEYSPACE, LETTER_TABLE_NAME);
       ResultSet resultSet = CassandraQuery.query(getLettersCql).execute(letterId);
-
+      Row row = resultSet.one();
       Letter letter = new Letter(
-            resultSet.one().getInt("customer_id"),
-            resultSet.one().getString("customer_token"),
-            resultSet.one().getString("fio"),
-            resultSet.one().getString("org_name"),
-            resultSet.one().getString("raw_address"),
-            resultSet.one().getString("xml")
+            row.getString("letter_id"),
+            row.getInt("customer_id"),
+            row.getString("customer_token"),
+            row.getString("fio"),
+            row.getString("org_name"),
+            row.getString("raw_address"),
+            row.getString("xml")
       );
 
       return letter;
@@ -133,10 +133,11 @@ public class CassandraLetterDaoImpl implements LetterDao {
    public List<Letter> getLettersByCustomer(int customerId) {
       String getLettersCql = String.format("SELECT * FROM %1$s.%2$s where customer_id = ?", KEYSPACE, LETTER_PK_CUSTOMER_TABLE_NAME);
       ResultSet resultSet = CassandraQuery.query(getLettersCql).execute(customerId);
-      List<Letter> letters = new ArrayList<Letter>();
+      List<Letter> letters = new LinkedList<>();
 
       for (Row row : resultSet.all()) {
          Letter letter = new Letter(
+               row.getString("letter_id"),
                row.getInt("customer_id"),
                row.getString("customer_token"),
                row.getString("fio"),
@@ -148,6 +149,45 @@ public class CassandraLetterDaoImpl implements LetterDao {
       }
 
       return letters;
+   }
+
+   @Override
+   public void updatePdfLink(String letterId, String pdfLink) {
+      String updatePdfLink;
+      for (String table: getTableLetterNames()) {
+         switch (table){
+            case LETTER_TABLE_NAME:
+               updatePdfLink = String.format("UPDATE %1$s.%2$s SET pdf_link = ? where letter_id = ?",
+                     Config.getInstance().getKeyspace(),
+                     table
+               );
+               CassandraQuery.query(updatePdfLink).execute(pdfLink, letterId);
+               break;
+            case LETTER_PK_DATE_TABLE_NAME:
+            case LETTER_PK_CUSTOMER_TABLE_NAME:
+               Letter letter = getLetterById(letterId);
+               updatePdfLink = String.format("UPDATE %1$s.%2$s SET pdf_link = ? where customer_id = ? AND date = ? AND letter_id = ?",
+                     Config.getInstance().getKeyspace(),
+                     table
+               );
+               CassandraQuery.query(updatePdfLink).execute(pdfLink, letter.getCustomerId(), getDateByLetterId(letterId), letterId);
+               break;
+         }
+      }
+   }
+
+   @Override
+   public int getDateByLetterId(String letterId) {
+      String getDateCql = String.format("select date from %1$s.%2$s WHERE letter_id =?",KEYSPACE, LETTER_TABLE_NAME);
+      ResultSet resultSet = CassandraQuery.query(getDateCql).execute(letterId);
+      return resultSet.one().getInt("date");
+   }
+
+   @Override
+   public String findPdfLink(String letterId) {
+      String getDateCql = String.format("select pdf_link from %1$s.%2$s WHERE letter_id =?",KEYSPACE, LETTER_TABLE_NAME);
+      ResultSet resultSet = CassandraQuery.query(getDateCql).execute(letterId);
+      return resultSet.one().getString("pdf_link");
    }
 
    private List<String> getTableLetterNames() {

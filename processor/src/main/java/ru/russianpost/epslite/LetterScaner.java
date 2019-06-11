@@ -8,6 +8,8 @@ import akka.actor.Props;
 import ru.russianpost.epslite.api.Letter;
 import ru.russianpost.epslite.impl.CassandraLetterDaoImpl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,7 +23,7 @@ public class LetterScaner extends AbstractActor {
    private ActorRef pdfCreateActor = epslite.actorOf(Props.create(PdfCreator.class), "pdfCreateActor");
 
    private void scanStorage() {
-      List<Letter> letters = CassandraLetterDaoImpl.getInstance().getLetters();
+      List<Letter> letters = CassandraLetterDaoImpl.getInstance().getLettersByDate(getCurrentDate());
       for (Letter letter: letters) {
          if (this.letters.add(letter)) {
             pdfCreateActor.tell(letter, getSelf());
@@ -36,5 +38,9 @@ public class LetterScaner extends AbstractActor {
    @Override
    public Receive createReceive() {
       return receiveBuilder().matchAny(m-> {this.scanStorage();}).build();
+   }
+
+   private int getCurrentDate() {
+      return new Integer(new SimpleDateFormat("yyyyMMdd").format(new Date()));
    }
 }

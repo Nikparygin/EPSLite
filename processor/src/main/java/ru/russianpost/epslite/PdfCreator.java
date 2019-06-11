@@ -10,6 +10,7 @@ import ru.russianpost.epslite.api.Letter;
 import akka.actor.AbstractActor;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
+import ru.russianpost.epslite.impl.CassandraLetterDaoImpl;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
@@ -44,28 +45,27 @@ public class PdfCreator extends AbstractActor {
 
       String fileName = letter.getLetterId() + ".pdf";
       File pdfFile = new File(pdfDir, fileName);
-      if (!checkIfFileAllreadyExist(pdfFile.getName())) {
-         try {
+      if (!checkIfFileAllreadyExist(letter.getLetterId())) {
+         try (OutputStream out = new java.io.BufferedOutputStream(new FileOutputStream(pdfFile))) {
             final FopFactory fopFactory = FopFactory.newInstance(new File("C:\\Dev\\!EPSLite\\EPSLite\\processor\\src\\main\\resources\\userconfig.xml"));
             FOUserAgent foUserAgent = fopFactory.newFOUserAgent();
-            OutputStream out = new FileOutputStream(pdfFile);
-            out = new java.io.BufferedOutputStream(out);
             Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, foUserAgent, out);
             TransformerFactory factory = TransformerFactory.newInstance();
             Transformer transformer = factory.newTransformer(new StreamSource(new File("C:\\Dev\\!EPSLite\\EPSLite\\processor\\src\\main\\resources\\style.xsl")));
             Source src = new StreamSource(new ByteArrayInputStream(letter.getXml().getBytes()));
             Result res = new SAXResult(fop.getDefaultHandler());
             transformer.transform(src, res);
-            out.close();
             log.info(String.format("PDF Letter %1$s successfully created!", letter.getLetterId()));
+            CassandraLetterDaoImpl.getInstance().updatePdfLink(letter.getLetterId(), pdfFile.getAbsolutePath());
          } catch (TransformerException | IOException | SAXException e) {
             e.printStackTrace();
          }
       }
    }
 
-   private boolean checkIfFileAllreadyExist(String fileName) {
-      File file = new File(fileName);
-      return (file.exists() && file.isFile());
+
+   private boolean checkIfFileAllreadyExist(String letterId) {
+      String pdfLink = CassandraLetterDaoImpl.getInstance().findPdfLink(letterId);
+      return pdfLink != null && !pdfLink.isEmpty();
    }
 }
